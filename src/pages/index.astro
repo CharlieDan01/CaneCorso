@@ -1,0 +1,191 @@
+---
+// src/pages/index.astro
+import '../css/styles.css';
+// 1. Importas el componente desde la nueva ruta
+import Footer from '../components/footer.astro';
+import Header from '../components/header.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+  <Header/>
+
+    <header id="inicio" class="hero">
+    
+    <img 
+      src="/img/wallpapercanecorso.jpg" 
+      alt="Wallpaper Cane Corso" 
+      class="hero-image" 
+    />
+    
+    <div class="hero-bg"></div>
+    
+    <h1 class="hero-title">Corso Forti Line</h1>
+    <p class="hero-subtitle">
+      Majestuosidad, fuerza y genética de excelencia desde León, Gto.
+    </p>
+    <a href="#linaje" class="btn-primary">Ver ejemplares</a>
+    </header>
+
+    <section class="sponsor-ribbon">
+        <span class="sponsor-text">Nutrición avalada y respaldada por</span>
+        <span class="sponsor-brand">ROYAL CANIN</span>
+    </section>
+
+    <section id="nutricion" class="section dark-section">
+      <div class="container split-layout">
+        <div class="image-box">
+          <div class="image-placeholder">
+            <span>[Foto de un Cane Corso con Royal Canin]</span>
+            <div class="glow-effect"></div>
+          </div>
+        </div>
+        <div class="text-box">
+          <h2 class="section-title">Nutrición de Campeones</h2>
+          <p class="section-text">
+            El desarrollo óseo y la imponente musculatura del Cane Corso requieren una atención milimétrica. Por ello, hemos formado una alianza estratégica con <strong>Royal Canin</strong>. 
+          </p>
+          <p class="section-text">
+            Desde el destete hasta su etapa adulta, nuestros ejemplares son alimentados exclusivamente con fórmulas super premium que garantizan una salud de hierro y el porte característico de nuestra línea.
+          </p>
+          <a href="https://www.royalcanin.com/mx" class="btn-contacto-nav" target="_blank" rel="noopener noreferrer">Quiero comprar en Royal Canin</a>
+          <div class="badge">
+            <span class="badge-icon">🏆</span>
+            <span class="badge-text">Cada cachorro entregado incluye un <strong>Kit de Bienvenida Royal Canin</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <section id="linaje" class="section darker-section gallery-section">
+      <div class="container text-center">
+        <h2 class="section-title">Nuestro Linaje</h2>
+        <p class="section-text max-width-text">
+          Criamos con absoluta responsabilidad, priorizando la salud, el temperamento y la morfología del verdadero Cane Corso Italiano.
+        </p>
+        <a href="/galeria" class="btn-contacto-nav">Quiero ver más ejemplares</a>
+        <div class="carousel-container">
+          <button class="carousel-btn prev-btn" aria-label="Foto Anterior">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          
+          <div class="carousel-wrapper">
+            <ul class="carousel-track" id="galeria-linaje">
+              <li><img src="/img/gallery/1.jpeg" alt="Cane Corso Ejemplar 1" /></li>
+              <li><img src="/img/gallery/2.jpeg" alt="Cane Corso Ejemplar 2" /></li>
+              <li><img src="/img/gallery/3.jpeg" alt="Cane Corso Ejemplar 3" /></li>
+              <li><img src="/img/gallery/4.jpeg" alt="Cane Corso Ejemplar 4" /></li>
+              <li><img src="/img/gallery/5.jpeg" alt="Cane Corso Ejemplar 5" /></li>
+              <li><img src="/img/gallery/6.jpeg" alt="Cane Corso Ejemplar 6" /></li>
+            </ul>
+          </div>
+
+          <button class="carousel-btn next-btn" aria-label="Foto Siguiente">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <ContactForm />
+
+    
+    <section id="nosotros" class="section darker-section about-section">
+      <div class="container text-center">
+        <h2 class="section-title">Sobre Nosotros</h2>
+        <p class="section-text max-width-text">
+          En Corso Forti Line, nuestra pasión por el Cane Corso va más allá de la cría. Somos una familia dedicada a preservar la esencia de esta raza majestuosa, combinando tradición con un compromiso inquebrantable hacia la salud y el bienestar de cada ejemplar que forma parte de nuestra línea.
+        </p>
+        
+        <p class="section-text max-width-text">
+          Desde León, Gto., nos esforzamos por criar Cane Corso que no solo cumplan con los estándares de belleza y estructura, sino que también posean un temperamento equilibrado y una salud robusta. Cada cachorro que entregamos es el resultado de años de experiencia, selección cuidadosa y un amor profundo por esta raza única.
+        </p>
+
+      </div>
+    </section>
+
+    <section id="ubicacion" class="map-section">
+        <div class="container text-center mb-10">
+            <h2 class="section-title">Nuestra Ubicación</h2>
+            <p class="section-text">
+                Criadero ubicado en León, Gto. Recibimos visitas únicamente con cita previa.
+            </p>
+        </div>
+        
+        <div class="map-wrapper">         
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119093.8712862483!2d-101.74747827802247!3d21.125181680035492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842bbeffd6e6e721%3A0x606d95ec61a54327!2sLe%C3%B3n%20de%20los%20Aldama%2C%20Gto.!5e0!3m2!1ses-419!2smx!4v1777218238101!5m2!1ses-419!2smx" 
+                width="100%" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+  <Footer/>
+
+    
+  
+
+<script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const track = document.getElementById('galeria-linaje');
+        const slides = Array.from(track.children);
+        const nextButton = document.querySelector('.next-btn');
+        const prevButton = document.querySelector('.prev-btn');
+        
+        let currentIndex = 0;
+        let slideInterval:any;
+
+        // Función para mover la pista a una foto específica
+        function moveToSlide(index) {
+          // Mueve el contenedor -100%, -200%, etc.
+          track.style.transform = `translateX(-${index * 100}%)`;
+          currentIndex = index;
+        }
+
+        // Ir a la siguiente (si llega al final, regresa a la 0)
+        function nextSlide() {
+          let nextIndex = currentIndex + 1;
+          if (nextIndex >= slides.length) nextIndex = 0;
+          moveToSlide(nextIndex);
+        }
+
+        // Ir a la anterior (si está en la 0, va a la última)
+        function prevSlide() {
+          let prevIndex = currentIndex - 1;
+          if (prevIndex < 0) prevIndex = slides.length - 1;
+          moveToSlide(prevIndex);
+        }
+
+        // Auto-reproducción cada 3 segundos (3000 ms)
+        function startAutoPlay() {
+          slideInterval = setInterval(nextSlide, 3000);
+        }
+
+        // Reiniciar el contador si el usuario hace clic
+        function resetInterval() {
+          clearInterval(slideInterval);
+          startAutoPlay();
+        }
+
+        // Eventos de los botones
+        nextButton.addEventListener('click', () => {
+          nextSlide();
+          resetInterval();
+        });
+
+        prevButton.addEventListener('click', () => {
+          prevSlide();
+          resetInterval();
+        });
+
+        // Iniciar todo
+        startAutoPlay();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+---
+// src/components/DogShowcase.astro
+//esta es una plantilla para mostrar cada perro en la galería, con su información y una imagen. 
+//Se puede reutilizar para cada perro que quieras destacar en la sección de galería o en cualquier otra parte del sitio.
+
+// 1. Definimos los "parámetros" que va a recibir nuestro componente
+export interface Props {
+  name: string;
+  gender: string; // '♂' o '♀'
+  age: string;
+  color: string;
+  description: string;
+  temperament: string;
+  imageSrc: string;
+  isReversed?: boolean; // Parámetro opcional para voltear el diseño (por defecto es falso)
+}
+
+// 2. Extraemos esos valores
+const { 
+  name, 
+  gender, 
+  age, 
+  color, 
+  description, 
+  temperament, 
+  imageSrc, 
+  isReversed = false 
+} = Astro.props;
+
+// 3. Lógica para alternar las clases de CSS si 'isReversed' es true
+const sectionClass = isReversed ? "showcase-row darker-bg" : "showcase-row";
+const layoutClass = isReversed ? "container split-layout reverse" : "container split-layout";
+const textClass = isReversed ? "showcase-info text-right-desktop" : "showcase-info";
+const tagsClass = isReversed ? "dog-tags justify-end-desktop" : "dog-tags";
+
+// 4. Creamos el mensaje de WhatsApp automático con el nombre del perro
+const whatsappMsg = `Hola, quisiera saber si ${name} tiene camadas disponibles.`;
+---
+
+<section class={sectionClass}>
+  <div class={layoutClass}>
+    <div class="showcase-image-wrapper">
+      <img src={imageSrc} alt={`${name} - Cane Corso`} class="showcase-img" />
+      <div class="showcase-frame"></div>
+    </div>
+    
+    <div class={textClass}>
+      <h2 class="dog-name">{name} <span class="dog-gender">{gender}</span></h2>
+      
+      <div class={tagsClass}>
+        <span class="tag tag-age"><i class="bi bi-hourglass-split"></i> {age}</span>
+        <span class="tag tag-color"><i class="bi bi-palette"></i> {color}</span>
+      </div>
+      
+      <p class="section-text">{description}</p>
+      <p class="section-text mb-large">
+        <strong>Temperamento:</strong> {temperament}
+      </p>
+      
+      <a href={`https://wa.me/52XXXXXXXXXX?text=${encodeURIComponent(whatsappMsg)}`} target="_blank" class="btn-outline">
+        <i class="bi bi-whatsapp"></i> Consultar descendencia
+      </a>
+    </div>
+  </div>
+</section>

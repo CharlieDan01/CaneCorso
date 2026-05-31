@@ -1,0 +1,86 @@
+---
+// src/pages/galeria.astro
+import '../css/styles.css';
+import Footer from '../components/footer.astro';
+import Header from '../components/header.astro';
+
+import DogShowcase from '../components/DogShowCase.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+    <Header />
+
+    <main class="page-content pt-32 pb-20">
+      <div class="container text-center mb-16">
+        <h1 class="text-5xl font-serif text-yellow-500 mb-4 tracking-wide">Nuestros Ejemplares</h1>
+        <p class="section-text max-width-text mx-auto">
+          Conoce a los orgullosos representantes de nuestra línea. Cada uno de nuestros Cane Corso es seleccionado por su estructura ósea impecable, temperamento equilibrado y genética superior.
+        </p>
+      </div>
+
+      <DogShowcase 
+        name="Zeus"
+        gender="♂"
+        age="2.5 Años"
+        color="Negro Sólido"
+        description="Zeus es nuestro macho alfa reproductivo. Posee una cabeza masiva y una expresión típica de la raza que impone respeto a primera vista."
+        temperament="Extremadamente leal a la familia, guardián incorruptible del hogar y muy dócil con los niños."
+        imageSrc="/img/gallery/1.jpeg"
+      />
+
+      <DogShowcase 
+        name="Hera"
+        gender="♀"
+        age="18 Meses"
+        color="Formentino"
+        description="Hera representa la agilidad y el atletismo del Cane Corso. Su manto formentino es uno de los más exóticos y buscados."
+        temperament="Maternal, muy alerta y con un instinto de presa alto. Ideal para guardia activa y deporte."
+        imageSrc="/img/gallery/2.jpeg"
+        isReversed={true}
+      />
+
+      <DogShowcase 
+        name="Apolo"
+        gender="♂"
+        age="3 Años"
+        color="Gris Plomo"
+        description="Apolo es un ejemplar imponente con una estructura ósea espectacular. Su postura siempre es majestuosa y atenta."
+        temperament="Seguro de sí mismo, protector y sumamente inteligente."
+        imageSrc="/img/gallery/3.jpeg"
+      />
+
+      <DogShowcase 
+        name="Cuatro"
+        gender="♂"
+        age="2.5 Años"
+        color="Negro Sólido"
+        description="Cuatro es nuestro macho alfa reproductivo. Posee una cabeza masiva y una expresión típica de la raza que impone respeto a primera vista."
+        temperament="Extremadamente leal a la familia, guardián incorruptible del hogar y muy dócil con los niños."
+        imageSrc="/img/gallery/4.jpeg"
+         isReversed={true}
+      />
+
+      <DogShowcase 
+        name="Cinco"
+        gender="♀"
+        age="18 Meses"
+        color="Formentino"
+        description="Cinco representa la agilidad y el atletismo del Cane Corso. Su manto formentino es uno de los más exóticos y buscados."
+        temperament="Maternal, muy alerta y con un instinto de presa alto. Ideal para guardia activa y deporte."
+        imageSrc="/img/gallery/5.jpeg"
+      />
+    
+      <DogShowcase 
+        name="6"
+        gender="♂"
+        age="1 Año"
+        color="Negro Sólido"
+        description="Seis es nuestro macho alfa reproductivo. Posee una cabeza masiva y una expresión típica de la raza que impone respeto a primera vista."
+        temperament="Extremadamente leal a la familia, guardián incorruptible del hogar y muy dócil con los niños."
+        imageSrc="/img/gallery/6.jpeg"
+        isReversed={true}
+      />
+
+      <ContactForm />
+
+<Footer />

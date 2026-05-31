@@ -1,0 +1,81 @@
+---
+import '../css/styles.css';
+// 1. Importas el componente desde la nueva ruta
+import Footer from '../components/footer.astro';
+import Header from '../components/header.astro';
+---
+
+<Header/>
+<header class="history-hero pt-32 pb-20">
+      <div class="container text-center relative z-10">
+        <h1 class="text-5xl md:text-7xl font-serif text-yellow-500 mb-6 tracking-wide drop-shadow-lg">
+          El Legado del Guardián
+        </h1>
+        <p class="history-subtitle max-width-text mx-auto">
+          Desde las arenas del Coliseo Romano hasta el calor del hogar moderno. Una crónica de fuerza, lealtad y supervivencia.
+        </p>
+        
+        <div class="glowing-image-container mt-12">
+            <img src="/img/gallery/roma.png" alt="Majestuosidad del Cane Corso" class="glowing-dog" />
+            <div class="glow-effect"></div>
+        </div>
+      </div>
+    </header>
+
+    <main class="history-content pb-24">
+        <div class="container max-w-4xl mx-auto px-4">
+            
+            <section class="story-chapter">
+                <h2 class="chapter-title">Los Orígenes: El <em>Canis Pugnax</em> Romano</h2>
+                <p class="story-text">
+                    <span class="drop-cap">E</span>l nombre "Cane Corso" proviene de la palabra latina <em>"Cohors"</em>, que significa protector, guardián del corral o guardaespaldas. Para entender su fuerza, debemos retroceder a la Antigua Roma. Los ancestros directos del Corso eran los mastines romanos conocidos como <em>Canis Pugnax</em>, perros de guerra colosales que marchaban a la par de las legiones romanas.
+                </p>
+                <p class="story-text">
+                    Estos titanes no solo defendían los campamentos militares, sino que combatían en las arenas de los anfiteatros enfrentándose a leones, osos y gladiadores. Eran máquinas de valor absoluto. Con la caída del Imperio Romano, el perro de guerra tuvo que adaptarse para sobrevivir, evolucionando hacia un compañero más ágil, versátil y ligado a la tierra.
+                </p>
+            </section>
+
+            <blockquote class="historic-quote">
+                "Un perro de mirada severa, músculos de hierro y un corazón que no conoce el miedo, pero que se derrite ante la mano de su amo."
+                <span>— Descripciones clásicas del Moloso Italiano</span>
+            </blockquote>
+
+            <section class="story-chapter">
+                <h2 class="chapter-title">El Renacimiento y la Cultura Italiana</h2>
+                <p class="story-text">
+                    Durante la Edad Media y el Renacimiento, el Cane Corso se convirtió en el guardián indiscutible de las granjas en el sur de Italia (especialmente en Puglia, Lucania y Sannio). Ya no luchaba contra leones, sino que protegía al ganado de los lobos y a las propiedades de los bandidos.
+                </p>
+                <p class="story-text">
+                    Su figura era tan imponente y venerada que se entrelazó con el arte y la literatura italiana. Aparece en las pinturas de Bartolomeo Pinelli y en los grabados renacentistas, siempre retratado junto a cazadores, pues su agilidad lo hacía el perro predilecto para la caza mayor, especialmente la del jabalí salvaje. Era un símbolo de estatus, coraje y la vida rústica italiana.
+                </p>
+            </section>
+
+            <section class="story-chapter">
+                <h2 class="chapter-title">Al Borde de la Extinción y el Gran Rescate</h2>
+                <p class="story-text">
+                    Con la llegada del siglo XX, la modernización de la agricultura, el abandono de las granjas y los estragos de las Guerras Mundiales llevaron a la raza al borde de la desaparición. El Cane Corso casi se convirtió en un mito, un fantasma en los recuerdos de los viejos granjeros del sur de Italia.
+                </p>
+                <p class="story-text">
+                    Sin embargo, en la década de 1970, un pequeño grupo de entusiastas liderados por el Dr. Paolo Breber, comenzó una misión de rescate. Recorrieron los rincones más remotos de Puglia, encontrando a los últimos ejemplares puros. Gracias a un cuidadoso programa de cría, la raza resurgió de sus cenizas, siendo reconocida oficialmente a nivel internacional en los años 90.
+                </p>
+            </section>
+
+            <div class="story-divider">
+                <i class="bi bi-shield-shaded"></i>
+            </div>
+
+            <section class="story-chapter">
+                <h2 class="chapter-title">El Guardián Moderno</h2>
+                <p class="story-text">
+                    Hoy en día, en <strong>Corso Forti Line</strong>, honramos ese legado milenario. El Cane Corso moderno conserva el atletismo, la inteligencia y el instinto protector de sus ancestros romanos, pero ha sido refinado para ser un compañero excepcionalmente leal y equilibrado en familia.
+                </p>
+                <p class="story-text">
+                    No críamos simples perros; preservamos piezas vivas de la historia. Cada cachorro que nace en nuestras instalaciones lleva en su ADN la sangre de los guardianes del imperio y el espíritu indomable de Italia.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+
+<Footer/>

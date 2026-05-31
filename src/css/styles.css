@@ -1,0 +1,837 @@
+/* =========================================
+   VARIABLES GLOBALES (Colores y Fuentes)
+========================================= */
+:root {
+  color-scheme: dark !important;
+  --bg-darker: #1c1917;
+  --bg-dark: #292524;
+  --bg-black: #000000;
+  
+  --text-main: #f5f5f4;
+  --text-muted: #d6d3d1;
+  --text-darker: #a8a29e;
+  
+  --gold-main: #eab308;
+  --gold-hover: #ca8a04;
+  --gold-border: rgba(202, 138, 4, 0.3);
+  
+  --font-sans: system-ui, -apple-system, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+}
+
+/* =========================================
+   RESETEO BASE
+========================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-darker) !important;
+  color: var(--text-main) !important;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+a { text-decoration: none; }
+
+/* =========================================
+   NAVBAR (Barra de Navegación Fija Ampliada)
+========================================= */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110px; /* Menú mucho más alto y espacioso */
+  background-color: rgba(28, 25, 23, 0.98);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--gold-border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+/* Usamos CSS Grid para el centrado perfecto (1 fracción, auto al centro, 1 fracción) */
+.nav-container {
+  width: 100%;
+  max-width: 1600px; /* Más ancho para aprovechar pantallas grandes */
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.nav-brand {
+  justify-self: start; /* Asegura que el logo se quede a la izquierda */
+  display: flex;
+  align-items: center;
+  transition: opacity 0.3s;
+}
+
+.nav-brand:hover { opacity: 0.8; }
+
+/* LOGO MÁS GRANDE */
+.nav-logo {
+  width: 85px; /* Aumentado drásticamente de 50 a 85px */
+  height: 85px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(202, 138, 4, 0.5);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* ENLACES CENTRALES */
+.nav-links-center {
+  justify-self: center; /* Centrado absoluto en la pantalla */
+  display: flex;
+  align-items: center;
+  gap: 35px; /* Más espacio entre opciones */
+}
+
+.nav-links-center a {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 0.85rem;
+  text-transform: uppercase; /* Letras mayúsculas como en tu foto */
+  letter-spacing: 2px; /* Separación elegante entre letras */
+  transition: color 0.3s;
+}
+
+.nav-links-center a:hover { 
+  color: var(--gold-main); 
+}
+
+/* ACCIONES A LA DERECHA (Contacto y Redes) */
+.nav-actions-right {
+  justify-self: end; /* Se empujan a la orilla derecha */
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* =========================================
+   RESPONSIVO (Móviles)
+========================================= */
+@media (max-width: 992px) {
+  /* En pantallas más chicas ocultamos el centro y derecha temporalmente para evitar que choque con el logo grande */
+  .nav-links-center, .nav-actions-right { 
+    display: none; 
+  }
+  .nav-container {
+    grid-template-columns: 1fr; /* Volvemos a un diseño simple en celular */
+  }
+  .nav-logo {
+    width: 65px; /* Un poco más pequeño en celulares */
+    height: 65px;
+  }
+  .navbar {
+    height: 85px;
+  }
+}
+.btn-contacto-nav {
+  background: linear-gradient(to right, var(--gold-hover), var(--gold-main));
+  color: var(--bg-black) !important;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+}
+
+/* =========================================
+   SECCIONES GENERALES
+========================================= */
+.section { padding: 100px 20px; }
+.dark-section { background-color: var(--bg-dark); }
+.darker-section { background-color: var(--bg-darker); }
+.black-section { background-color: var(--bg-black); border-top: 1px solid var(--bg-dark); }
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.text-center { text-align: center; }
+.max-width-text { max-width: 600px; margin: 0 auto; }
+.max-width-contact { max-width: 600px; margin: 0 auto; }
+.mb-large { margin-bottom: 40px; }
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  color: var(--gold-main);
+  margin-bottom: 20px;
+}
+
+.section-text {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+/* =========================================
+  HERO SECTION
+========================================= */
+.hero {
+  position: relative; /* Esencial para que los hijos absolutos (imagen/bg) se alineen aquí */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 20px 80px;
+  overflow: hidden; /* Evita que la imagen sobresalga si se escala */
+}
+
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  /* Mantenemos tu degradado original */
+  background: linear-gradient(to bottom, var(--bg-dark), var(--bg-darker));
+  z-index: -1; /* Se sitúa detrás del texto, pero delante de la imagen */
+  opacity: 0.7; /* Opcional: Ajusta la opacidad del degradado para que la imagen se vea más o menos */
+}
+
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Esta es la magia: se ajusta a todo el tamaño sin deformarse */
+  object-position: center; /* Centra la imagen para que no se corten partes importantes */
+  z-index: -2; /* Se sitúa por detrás del degradado y del texto */
+  pointer-events: none; /* Evita que el usuario interactúe con la imagen directamente */
+}
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  color: var(--gold-main);
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  color: var(--text-darker);
+  font-size: 1.5rem;
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+/* Botones */
+.btn-primary {
+  display: inline-block;
+  background-color: transparent;
+  border: 2px solid var(--gold-hover);
+  color: var(--gold-main);
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover, .btn-outline:hover {
+  background-color: var(--gold-hover);
+  color: var(--bg-black);
+}
+
+.btn-outline {
+  display: inline-block;
+  border: 2px solid var(--gold-hover);
+  color: var(--gold-main);
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+
+/* =========================================
+   CINTA PATROCINADOR
+========================================= */
+.sponsor-ribbon {
+  background-color: var(--bg-black);
+  padding: 20px;
+  border-top: 1px solid var(--gold-border);
+  border-bottom: 1px solid var(--gold-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.sponsor-text {
+  color: var(--text-darker);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+}
+
+.sponsor-brand {
+  color: white;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: -1px;
+}
+
+/* =========================================
+   ROYAL CANIN (Split Layout)
+========================================= */
+.split-layout {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.split-layout > div {
+  flex: 1;
+}
+
+.image-placeholder {
+  aspect-ratio: 1 / 1;
+  background-color: rgba(68, 64, 60, 0.5);
+  border-radius: 15px;
+  border: 1px solid var(--gold-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-darker);
+  position: relative;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  background-color: var(--bg-darker);
+  border: 1px solid var(--gold-border);
+  padding: 15px 25px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+/* =========================================
+   GALERÍA (Grid)
+========================================= */
+.grid-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.gallery-card {
+  aspect-ratio: 4 / 5;
+  background-color: var(--bg-dark);
+  border: 1px solid rgba(68, 64, 60, 0.5);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-darker);
+  transition: border-color 0.3s;
+}
+
+.gallery-card:hover { border-color: var(--gold-border); }
+
+/* =========================================
+   RESPONSIVO (Móviles)
+========================================= */
+@media (max-width: 768px) {
+  .nav-links { display: none; } /* Ocultar menú en móvil por ahora */
+  .hero-title { font-size: 2.5rem; }
+  .split-layout { flex-direction: column; }
+  .grid-gallery { grid-template-columns: 1fr; }
+  .sponsor-ribbon { flex-direction: column; gap: 5px; text-align: center; }
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+.footer {
+  background-color: var(--bg-darker);
+  border-top: 1px solid var(--bg-dark);
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer p {
+  color: var(--text-darker);
+  font-size: 0.9rem;
+}
+
+.danzu-link {
+  color: var(--gold-main);
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+}
+
+.danzu-link:hover {
+  color: var(--text-main);
+  text-shadow: 0 0 8px rgba(202, 138, 4, 0.6);
+}
+
+
+/* =========================================
+   CARRUSEL INTERACTIVO
+========================================= */
+.carousel-container {
+  position: relative;
+  max-width: 800px; /* Ancho máximo de la galería */
+  margin: 40px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; /* Espacio entre las fotos y las flechas */
+}
+
+.carousel-wrapper {
+  overflow: hidden;
+  width: 100%;
+  border-radius: 12px;
+  border: 2px solid var(--gold-border);
+  background-color: var(--bg-dark);
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out; /* Animación de deslizamiento suave */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.carousel-track li {
+  min-width: 100%; /* Cada imagen ocupa exactamente el 100% del contenedor visible */
+}
+
+.carousel-track img {
+  width: 100%;
+  height: 700px; /* Altura fija para que no brinque el diseño */
+  object-fit: cover;
+  display: block;
+}
+
+/* Diseño de los Botones (Flechas) */
+.carousel-btn {
+  background-color: transparent;
+  color: var(--gold-main);
+  border: 2px solid var(--gold-border);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s;
+  flex-shrink: 0; /* Evita que los botones se aplasten en pantallas pequeñas */
+}
+
+.carousel-btn:hover {
+  background-color: var(--gold-main);
+  color: var(--bg-black);
+  border-color: var(--gold-main);
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+  .carousel-container {
+    gap: 5px; /* Menos espacio en celular */
+  }
+  .carousel-track img {
+    height: 350px; /* Imagen más pequeña en celular */
+  }
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
+
+/* =========================================
+   FORMULARIO DE CONTACTO
+========================================= */
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.input-group {
+  width: 100%;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Borde muy sutil estilo la foto */
+  color: var(--text-main);
+  padding: 15px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+  resize: vertical; /* Permite hacer más grande el textarea solo hacia abajo */
+}
+
+/* Color del texto de relleno (placeholder) */
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+  color: var(--text-darker);
+}
+
+/* Efecto al hacer clic dentro del campo (brillo dorado) */
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: var(--gold-main);
+}
+
+/* Botón de Enviar minimalista */
+.btn-submit {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
+  padding: 12px 40px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  align-self: center; /* Centra el botón en el contenedor */
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+  border-color: var(--gold-main);
+  color: var(--gold-main);
+}
+
+/* =========================================
+   PÁGINA DE GALERÍA (SHOWCASE EDITORIAL)
+========================================= */
+.page-content {
+  min-height: 100vh;
+}
+
+.pt-32 { padding-top: 140px; }
+.pb-20 { padding-bottom: 80px; }
+.mb-16 { margin-bottom: 60px; }
+
+.showcase-row {
+  padding: 80px 20px;
+  border-bottom: 1px solid var(--bg-dark);
+}
+
+.darker-bg {
+  background-color: var(--bg-black);
+}
+
+/* Modificador para invertir el orden (Foto derecha, Texto izquierda) */
+.split-layout.reverse {
+  flex-direction: row-reverse;
+}
+
+.showcase-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.showcase-img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.4s ease;
+}
+
+.showcase-img:hover {
+  transform: translateY(-10px);
+}
+
+/* El marco dorado elegante detrás de la foto */
+.showcase-frame {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--gold-border);
+  border-radius: 12px;
+  z-index: 1;
+  transition: all 0.4s ease;
+}
+
+.showcase-image-wrapper:hover .showcase-frame {
+  top: 30px;
+  left: 30px;
+  border-color: var(--gold-main);
+}
+
+/* Información del Perro */
+.showcase-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dog-name {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  color: var(--gold-main);
+  margin-bottom: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.dog-gender {
+  color: var(--text-darker);
+  font-size: 2.5rem;
+  font-family: var(--font-sans);
+}
+
+/* Etiquetas (Edad, Color) */
+.dog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.tag {
+  background-color: var(--bg-darker);
+  border: 1px solid var(--gold-border);
+  color: var(--text-muted);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tag i { color: var(--gold-main); }
+
+/* Alineación en Desktop para la tarjeta invertida */
+@media (min-width: 769px) {
+  .text-right-desktop {
+    text-align: right;
+    align-items: flex-end;
+  }
+  .justify-end-desktop {
+    justify-content: flex-end;
+  }
+}
+
+/* Ajustes en Móviles */
+@media (max-width: 768px) {
+  .split-layout.reverse {
+    flex-direction: column; /* En móvil siempre foto arriba, texto abajo */
+  }
+  .showcase-frame {
+    display: none; /* Quitamos el marco en móvil para ahorrar espacio */
+  }
+  .dog-name {
+    font-size: 2.8rem;
+    justify-content: center;
+  }
+  .dog-tags {
+    justify-content: center;
+  }
+  .showcase-info {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .showcase-img {
+    height: 400px;
+  }
+}
+
+/* =========================================
+   PÁGINA DE HISTORIA (CRÓNICA EDITORIAL)
+========================================= */
+.history-hero {
+  position: relative;
+  background: radial-gradient(circle at center, var(--bg-dark), var(--bg-darker) 70%);
+  overflow: hidden;
+}
+
+.history-subtitle {
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* Efecto de Aura/Brillo para la imagen principal */
+.glowing-image-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.glowing-dog {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  /* El brillo dorado alrededor de la imagen */
+  box-shadow: 0 0 40px rgba(202, 138, 4, 0.4), 
+              0 0 80px rgba(202, 138, 4, 0.2);
+  border: 1px solid rgba(202, 138, 4, 0.3);
+}
+
+.history-content {
+  background-color: var(--bg-darker);
+  position: relative;
+}
+
+.story-chapter {
+  margin-bottom: 50px;
+}
+
+.chapter-title {
+  font-family: var(--font-serif);
+  color: var(--gold-main);
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--bg-dark);
+  padding-bottom: 10px;
+}
+
+.story-text {
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+/* Letra Capitular (La letra gigante de inicio de cuento) */
+.drop-cap {
+  float: left;
+  font-family: var(--font-serif);
+  font-size: 4.5rem;
+  line-height: 0.8;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-left: 3px;
+  color: var(--gold-main);
+}
+
+/* Citas Históricas Destacadas */
+.historic-quote {
+  background-color: var(--bg-dark);
+  border-left: 5px solid var(--gold-main);
+  padding: 30px 40px;
+  margin: 60px 0;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--text-main);
+  border-radius: 0 12px 12px 0;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.historic-quote span {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--gold-main);
+  margin-top: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-style: normal;
+}
+
+/* Divisor elegante con icono */
+.story-divider {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--gold-border);
+  margin: 60px 0;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+  .chapter-title {
+    font-size: 1.8rem;
+  }
+  .story-text {
+    text-align: left; /* En móviles el texto justificado es difícil de leer */
+  }
+  .historic-quote {
+    padding: 20px;
+    font-size: 1.2rem;
+  }
+  .glowing-dog {
+    max-height: 350px;
+  }
+}
+
+/* =========================================
+   SECCIÓN DE UBICACIÓN (MAPA FULL WIDTH)
+========================================= */
+.map-section {
+  background-color: var(--bg-black);
+  padding-top: 80px; 
+  /* No le ponemos padding-bottom para que el mapa toque el final de la sección */
+}
+
+.map-wrapper {
+  width: 100%;
+  height: 450px;
+  line-height: 0; /* Elimina un espacio fantasma que a veces deja el navegador debajo de los iframes */
+  border-top: 2px solid var(--gold-border);
+  border-bottom: 2px solid var(--gold-border);
+}
+
+.map-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  /* Efecto para que el mapa no brille tanto y combine con tu tema oscuro */
+  filter: contrast(1.1) grayscale(10%);
+  transition: filter 0.3s ease;
+}
+
+/* Si el usuario pasa el mouse, el mapa recupera su color 100% normal */
+.map-wrapper iframe:hover {
+  filter: contrast(1) grayscale(0%);
+}

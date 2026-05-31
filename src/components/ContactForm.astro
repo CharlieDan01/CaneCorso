@@ -1,0 +1,53 @@
+---
+// src/components/ContactForm.astro
+// Este componente se puede usar en cualquier página, solo importándolo y usándolo como una etiqueta personalizada <ContactForm/>
+---
+
+<section id="contacto" class="section black-section text-center">
+    <div class="container max-width-contact">
+        <h2 class="section-title">¿Listo para integrar un Corso a tu familia?</h2>
+        <p class="section-text mb-large">Déjanos tus datos o escríbenos directamente para conocer nuestras camadas disponibles.</p>
+        
+        <form id="contact-form" class="custom-form">
+            <div class="input-group">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre" required />
+            </div>
+            <div class="input-group">
+                <input type="email" id="correo" name="correo" placeholder="Email*" required />
+            </div>
+            <div class="input-group">
+                <textarea id="mensaje" name="mensaje" rows="5" placeholder="Mensaje" required maxlength="500"></textarea>
+            </div>
+            
+            <button type="submit" class="btn-submit">— ENVIAR —</button>
+        </form>
+    </div>
+</section>
+
+<script>
+  // Usamos un pequeño truco para asegurarnos de que el script solo corra si el formulario existe en la página
+const initForm = () => {
+    const form = document.getElementById('contact-form');
+    
+    if (form) {
+      // Removemos eventos previos para evitar duplicados si Astro navega entre páginas
+    form.onsubmit = function(event) {
+        event.preventDefault(); 
+        
+        const nombre = document.getElementById('nombre').value;
+        const correo = document.getElementById('correo').value;
+        const mensaje = document.getElementById('mensaje').value;
+        
+        const numeroWhatsApp = "5214771697494"; // RECUERDA PONER EL NÚMERO REAL AQUÍ
+        
+        const textoFormateado = `Hola Corso Forti Line, me interesa información de los cachorros.%0A%0A*Mi Nombre:* ${nombre}%0A*Mi Correo:* ${correo}%0A*Mensaje:* ${mensaje}`;
+        
+        const url = `https://wa.me/${numeroWhatsApp}?text=${textoFormateado}`;
+        window.open(url, '_blank');
+    };
+    }
+};
+
+  // Se ejecuta al cargar la página
+document.addEventListener('DOMContentLoaded', initForm);
+</script>
