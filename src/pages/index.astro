@@ -1,28 +1,63 @@
 ---
 // src/pages/index.astro
 import '../css/styles.css';
-// 1. Importas el componente desde la nueva ruta
 import Footer from '../components/footer.astro';
 import Header from '../components/header.astro';
 import ContactForm from '../components/ContactForm.astro';
+
+// 1. URL del CSV exportado de Google Sheets
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPJeMtr0EwLIGp0RtMDH5_i4Brwm7VkP9fIb5cna43YMPCTIpUwOIJ4YHwVsBq9sBPZbHCUCbPtUwj/pub?gid=0&single=true&output=csv";
+
+interface DogRow {
+  name: string;
+  imageSrc: string;
+}
+
+let galleryImages: DogRow[] = [];
+
+try {
+  const response = await fetch(SHEET_CSV_URL);
+  const csvText = await response.text();
+
+  const lines = csvText.split('\n').map(line => line.trim()).filter(Boolean);
+
+  galleryImages = lines.slice(1).map(line => {
+    // Separa por comas respetando celdas con texto entre comillas
+    const values = line.split(/,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/).map(v => v.trim());
+    
+    // Extrae la celda de la imagen (columna G / índice 6)
+    let rawImg = values[6] || '';
+    
+    // Remueve comillas iniciales o finales que pudieran venir del CSV
+    rawImg = rawImg.replace(/^["']|["']$/g, '').trim();
+
+    return {
+      name: (values[0] || 'Cane Corso').replace(/^["']|["']$/g, '').trim(),
+      imageSrc: rawImg
+    };
+  }).filter(dog => dog.imageSrc !== ''); // Solo incluye registros que tengan imagen asignada
+} catch (error) {
+  console.error("Error al obtener las imágenes de Google Sheets:", error);
+  galleryImages = []; // Si falla la petición, la lista queda vacía sin imágenes locales
+}
 ---
+
   <Header/>
 
     <header id="inicio" class="hero">
-    
-    <img 
-      src="/img/wallpapercanecorso.jpg" 
-      alt="Wallpaper Cane Corso" 
-      class="hero-image" 
-    />
-    
-    <div class="hero-bg"></div>
-    
-    <h1 class="hero-title">Corso Forti Line</h1>
-    <p class="hero-subtitle">
-      Majestuosidad, fuerza y genética de excelencia desde León, Gto.
-    </p>
-    <a href="#linaje" class="btn-primary">Ver ejemplares</a>
+      <img 
+        src="/img/wallpapercanecorso.jpg" 
+        alt="Wallpaper Cane Corso" 
+        class="hero-image" 
+      />
+      
+      <div class="hero-bg"></div>
+      
+      <h1 class="hero-title">Corso Forti Line</h1>
+      <p class="hero-subtitle">
+        Majestuosidad, fuerza y genética de excelencia desde León, Gto.
+      </p>
+      <a href="#linaje" class="btn-primary">Ver ejemplares</a>
     </header>
 
     <section class="sponsor-ribbon">
@@ -62,6 +97,7 @@ import ContactForm from '../components/ContactForm.astro';
           Criamos con absoluta responsabilidad, priorizando la salud, el temperamento y la morfología del verdadero Cane Corso Italiano.
         </p>
         <a href="/galeria" class="btn-contacto-nav">Quiero ver más ejemplares</a>
+        
         <div class="carousel-container">
           <button class="carousel-btn prev-btn" aria-label="Foto Anterior">
             <i class="bi bi-chevron-left"></i>
@@ -69,12 +105,11 @@ import ContactForm from '../components/ContactForm.astro';
           
           <div class="carousel-wrapper">
             <ul class="carousel-track" id="galeria-linaje">
-              <li><img src="/img/gallery/1.jpeg" alt="Cane Corso Ejemplar 1" /></li>
-              <li><img src="/img/gallery/2.jpeg" alt="Cane Corso Ejemplar 2" /></li>
-              <li><img src="/img/gallery/3.jpeg" alt="Cane Corso Ejemplar 3" /></li>
-              <li><img src="/img/gallery/4.jpeg" alt="Cane Corso Ejemplar 4" /></li>
-              <li><img src="/img/gallery/5.jpeg" alt="Cane Corso Ejemplar 5" /></li>
-              <li><img src="/img/gallery/6.jpeg" alt="Cane Corso Ejemplar 6" /></li>
+              {galleryImages.map((dog) => (
+                <li>
+                  <img src={dog.imageSrc} alt={`Ejemplar ${dog.name}`} />
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -86,9 +121,7 @@ import ContactForm from '../components/ContactForm.astro';
       </div>
     </section>
 
-
     <ContactForm />
-
     
     <section id="nosotros" class="section darker-section about-section">
       <div class="container text-center">
@@ -100,7 +133,6 @@ import ContactForm from '../components/ContactForm.astro';
         <p class="section-text max-width-text">
           Desde León, Gto., nos esforzamos por criar Cane Corso que no solo cumplan con los estándares de belleza y estructura, sino que también posean un temperamento equilibrado y una salud robusta. Cada cachorro que entregamos es el resultado de años de experiencia, selección cuidadosa y un amor profundo por esta raza única.
         </p>
-
       </div>
     </section>
 
@@ -127,63 +159,58 @@ import ContactForm from '../components/ContactForm.astro';
 
   <Footer/>
 
-    
-  
-
-<script>
+  <script>
       document.addEventListener('DOMContentLoaded', () => {
         const track = document.getElementById('galeria-linaje');
+        if (!track) return;
+        
         const slides = Array.from(track.children);
         const nextButton = document.querySelector('.next-btn');
         const prevButton = document.querySelector('.prev-btn');
         
-        let currentIndex = 0;
-        let slideInterval:any;
+        if (slides.length === 0) return;
 
-        // Función para mover la pista a una foto específica
+        let currentIndex = 0;
+        let slideInterval;
+
         function moveToSlide(index) {
-          // Mueve el contenedor -100%, -200%, etc.
           track.style.transform = `translateX(-${index * 100}%)`;
           currentIndex = index;
         }
 
-        // Ir a la siguiente (si llega al final, regresa a la 0)
         function nextSlide() {
           let nextIndex = currentIndex + 1;
           if (nextIndex >= slides.length) nextIndex = 0;
           moveToSlide(nextIndex);
         }
 
-        // Ir a la anterior (si está en la 0, va a la última)
         function prevSlide() {
           let prevIndex = currentIndex - 1;
           if (prevIndex < 0) prevIndex = slides.length - 1;
           moveToSlide(prevIndex);
         }
 
-        // Auto-reproducción cada 3 segundos (3000 ms)
         function startAutoPlay() {
           slideInterval = setInterval(nextSlide, 3000);
         }
 
-        // Reiniciar el contador si el usuario hace clic
         function resetInterval() {
           clearInterval(slideInterval);
           startAutoPlay();
         }
 
-        // Eventos de los botones
-        nextButton.addEventListener('click', () => {
-          nextSlide();
-          resetInterval();
-        });
+        if (nextButton && prevButton) {
+          nextButton.addEventListener('click', () => {
+            nextSlide();
+            resetInterval();
+          });
 
-        prevButton.addEventListener('click', () => {
-          prevSlide();
-          resetInterval();
-        });
+          prevButton.addEventListener('click', () => {
+            prevSlide();
+            resetInterval();
+          });
+        }
 
-        // Iniciar todo
         startAutoPlay();
       });
     </script>

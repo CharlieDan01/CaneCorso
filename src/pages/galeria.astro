@@ -3,84 +3,81 @@
 import '../css/styles.css';
 import Footer from '../components/footer.astro';
 import Header from '../components/header.astro';
-
 import DogShowcase from '../components/DogShowCase.astro';
 import ContactForm from '../components/ContactForm.astro';
+
+// 1. URL pública del CSV de Google Sheets
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPJeMtr0EwLIGp0RtMDH5_i4Brwm7VkP9fIb5cna43YMPCTIpUwOIJ4YHwVsBq9sBPZbHCUCbPtUwj/pub?gid=0&single=true&output=csv";
+
+interface DogRow {
+  name: string;
+  gender: string;
+  age: string;
+  color: string;
+  description: string;
+  temperament: string;
+  imageSrc: string;
+  hasOwner: string;
+}
+
+let dogs: DogRow[] = [];
+
+try {
+  const response = await fetch(SHEET_CSV_URL);
+  const csvText = await response.text();
+
+  const lines = csvText.split('\n').map(line => line.trim()).filter(Boolean);
+
+  dogs = lines.slice(1).map(line => {
+    // Separa por comas respetando comillas en el CSV
+    const values = line.split(/,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/).map(v => v.trim());
+    
+    // Extrae y limpia la URL de la imagen
+    let rawImg = values[6] || '';
+    rawImg = rawImg.replace(/^["']|["']$/g, '').trim();
+
+    return {
+      name: (values[0] || 'Sin Nombre').replace(/^["']|["']$/g, '').trim(),
+      gender: (values[1] || '♂').replace(/^["']|["']$/g, '').trim(),
+      age: (values[2] || 'Por definir').replace(/^["']|["']$/g, '').trim(),
+      color: (values[3] || 'Por definir').replace(/^["']|["']$/g, '').trim(),
+      description: (values[4] || 'Sin descripción disponible.').replace(/^["']|["']$/g, '').trim(),
+      temperament: (values[5] || 'Equilibrado y guardián.').replace(/^["']|["']$/g, '').trim(),
+      imageSrc: rawImg,
+      hasOwner: (values[7] || 'No').replace(/^["']|["']$/g, '').trim()
+    };
+  }).filter(dog => dog.imageSrc !== ''); // Omitir filas que no tengan imagen asignada
+} catch (error) {
+  console.error("Error al obtener los datos de Google Sheets:", error);
+  dogs = []; // Si hay error de red o lectura, la lista queda vacía
+}
 ---
 
-    <Header />
+<Header />
 
-    <main class="page-content pt-32 pb-20">
-      <div class="container text-center mb-16">
-        <h1 class="text-5xl font-serif text-yellow-500 mb-4 tracking-wide">Nuestros Ejemplares</h1>
-        <p class="section-text max-width-text mx-auto">
-          Conoce a los orgullosos representantes de nuestra línea. Cada uno de nuestros Cane Corso es seleccionado por su estructura ósea impecable, temperamento equilibrado y genética superior.
-        </p>
-      </div>
+<main class="page-content pt-32 pb-20">
+  <div class="container text-center mb-16">
+    <h1 class="text-5xl font-serif text-yellow-500 mb-4 tracking-wide">Nuestros Ejemplares</h1>
+    <p class="section-text max-width-text mx-auto">
+      Conoce a los orgullosos representantes de nuestra línea. Cada uno de nuestros Cane Corso es seleccionado por su estructura ósea impecable, temperamento equilibrado y genética superior.
+    </p>
+  </div>
 
-      <DogShowcase 
-        name="Zeus"
-        gender="♂"
-        age="2.5 Años"
-        color="Negro Sólido"
-        description="Zeus es nuestro macho alfa reproductivo. Posee una cabeza masiva y una expresión típica de la raza que impone respeto a primera vista."
-        temperament="Extremadamente leal a la familia, guardián incorruptible del hogar y muy dócil con los niños."
-        imageSrc="/img/gallery/1.jpeg"
-      />
+  <!-- 2. Generación dinámica de cada perro registrado en la hoja -->
+  {dogs.map((dog, index) => (
+    <DogShowcase 
+      name={dog.name}
+      gender={dog.gender}
+      age={dog.age}
+      color={dog.color}
+      description={dog.description}
+      temperament={dog.temperament}
+      imageSrc={dog.imageSrc}
+      isReversed={index % 2 !== 0} 
+    />
+  ))}
 
-      <DogShowcase 
-        name="Hera"
-        gender="♀"
-        age="18 Meses"
-        color="Formentino"
-        description="Hera representa la agilidad y el atletismo del Cane Corso. Su manto formentino es uno de los más exóticos y buscados."
-        temperament="Maternal, muy alerta y con un instinto de presa alto. Ideal para guardia activa y deporte."
-        imageSrc="/img/gallery/2.jpeg"
-        isReversed={true}
-      />
-
-      <DogShowcase 
-        name="Apolo"
-        gender="♂"
-        age="3 Años"
-        color="Gris Plomo"
-        description="Apolo es un ejemplar imponente con una estructura ósea espectacular. Su postura siempre es majestuosa y atenta."
-        temperament="Seguro de sí mismo, protector y sumamente inteligente."
-        imageSrc="/img/gallery/3.jpeg"
-      />
-
-      <DogShowcase 
-        name="Cuatro"
-        gender="♂"
-        age="2.5 Años"
-        color="Negro Sólido"
-        description="Cuatro es nuestro macho alfa reproductivo. Posee una cabeza masiva y una expresión típica de la raza que impone respeto a primera vista."
-        temperament="Extremadamente leal a la familia, guardián incorruptible del hogar y muy dócil con los niños."
-        imageSrc="/img/gallery/4.jpeg"
-         isReversed={true}
-      />
-
-      <DogShowcase 
-        name="Cinco"
-        gender="♀"
-        age="18 Meses"
-        color="Formentino"
-        description="Cinco representa la agilidad y el atletismo del Cane Corso. Su manto formentino es uno de los más exóticos y buscados."
-        temperament="Maternal, muy alerta y con un instinto de presa alto. Ideal para guardia activa y deporte."
-        imageSrc="/img/gallery/5.jpeg"
-      />
-    
-      <DogShowcase 
-        name="6"
-        gender="♂"
-        age="1 Año"
-        color="Negro Sólido"
-        description="Seis es nuestro macho alfa reproductivo. Posee una cabeza masiva y una expresión típica de la raza que impone respeto a primera vista."
-        temperament="Extremadamente leal a la familia, guardián incorruptible del hogar y muy dócil con los niños."
-        imageSrc="/img/gallery/6.jpeg"
-        isReversed={true}
-      />
-
-      <ContactForm />
+  <ContactForm />
+</main>
 
 <Footer />
