@@ -11,6 +11,7 @@ const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPJeMtr0
 interface DogRow {
   name: string;
   imageSrc: string;
+  hasOwner: boolean;
 }
 
 let galleryImages: DogRow[] = [];
@@ -27,18 +28,20 @@ try {
     
     // Extrae la celda de la imagen (columna G / índice 6)
     let rawImg = values[6] || '';
-    
-    // Remueve comillas iniciales o finales que pudieran venir del CSV
     rawImg = rawImg.replace(/^["']|["']$/g, '').trim();
+
+    // Extrae la celda de "Ya tiene dueño?" (columna H / índice 7)
+    const hasOwnerRaw = (values[7] || 'FALSO').replace(/^["']|["']$/g, '').trim().toUpperCase();
 
     return {
       name: (values[0] || 'Cane Corso').replace(/^["']|["']$/g, '').trim(),
-      imageSrc: rawImg
+      imageSrc: rawImg,
+      hasOwner: hasOwnerRaw === 'VERDADERO' || hasOwnerRaw === 'TRUE'
     };
-  }).filter(dog => dog.imageSrc !== ''); // Solo incluye registros que tengan imagen asignada
+  }).filter(dog => dog.imageSrc !== '' && !dog.hasOwner); // Solo incluye si tiene imagen Y NO tiene dueño
 } catch (error) {
   console.error("Error al obtener las imágenes de Google Sheets:", error);
-  galleryImages = []; // Si falla la petición, la lista queda vacía sin imágenes locales
+  galleryImages = []; // Si falla la petición, la lista queda vacía
 }
 ---
 

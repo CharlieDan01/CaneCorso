@@ -44,9 +44,13 @@ try {
       description: (values[4] || 'Sin descripción disponible.').replace(/^["']|["']$/g, '').trim(),
       temperament: (values[5] || 'Equilibrado y guardián.').replace(/^["']|["']$/g, '').trim(),
       imageSrc: rawImg,
-      hasOwner: (values[7] || 'No').replace(/^["']|["']$/g, '').trim()
+      hasOwner: (values[7] || 'FALSO').replace(/^["']|["']$/g, '').trim().toUpperCase()
     };
-  }).filter(dog => dog.imageSrc !== ''); // Omitir filas que no tengan imagen asignada
+  }).filter(dog => {
+    // Solo incluye si tiene imagen Y la casilla de "Ya tiene dueño?" NO está marcada
+    const isOwner = dog.hasOwner === 'VERDADERO' || dog.hasOwner === 'TRUE';
+    return dog.imageSrc !== '' && !isOwner;
+  });
 } catch (error) {
   console.error("Error al obtener los datos de Google Sheets:", error);
   dogs = []; // Si hay error de red o lectura, la lista queda vacía
